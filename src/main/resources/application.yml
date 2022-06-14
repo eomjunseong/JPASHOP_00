@@ -16,6 +16,16 @@ spring:
       prefix: classpath:/templates/
       suffix: .html
 
+
+#  jackson:
+#    serialization:
+#      fail-on-empty-beans: false
+# 아래가 위에꺼랑 똑같은 역할을 하네...
+#  @Bean
+#  Hibernate5Module hibernate5Module() {
+#  return new Hibernate5Module();
+#}
+
 logging.level:
   org.hibernate.SQL: debug
 # org.hibernate.type: trace
