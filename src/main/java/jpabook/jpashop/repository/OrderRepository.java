@@ -99,14 +99,58 @@ public class OrderRepository {
         TypedQuery<Order> query = em.createQuery(cq).setMaxResults(1000);
         return query.getResultList();
     }
-
+    
+    //V3 주문조회
+    //핵심 : JOIN FETCH : LAZY 다 무시하고, 값을 채워서 가져옴
+    //v4보다 작성하기 쉬움
+    //v4보다 재사용성 업
     public List<Order> findAllWithMemberDelivery() {
+        //order외에 meber delivery 정보가 다실리지만 Order.class 넹
         return em.createQuery(
                         "select o from Order o" +
                                 " join fetch o.member m" +
                                 " join fetch o.delivery d", Order.class)
                 .getResultList();
     }
+/*
+--> order.simplequery.OrderSimpleQueryResposotory.class 로 이동
+//-->이렇게 한 이유 : Repository는 순수 Entity만을 위해
+
+
+    //V4 주문조회
+    //핵심 : v3와 비교하여, 필요한거만 채워서 가져옴
+    //join fetch X
+    //new 사용
+    //반환 타입 OrderSimpleQueryDto!!
+    //재사용성이 떨어짐
+    //v3 v4 차이 미비
+    public List<OrderSimpleQueryDto> findOrderDtos() {
+        return em.createQuery("select " +
+                        "new jpabook.jpashop.repository.order.simplequery.OrderSimpleQueryDto" +
+                        "(o.id, m.name, o.orderDate, o.status, d.address) " +
+                        "from Order o " +
+                        "join o.member m " +
+                        "join o.delivery d ", OrderSimpleQueryDto.class)
+                .getResultList();
+    }
+
+*/
+
+
+
+    //페이징
+    public List<Order> findAllWithMemberDelivery(int offset, int limit) {
+        return em.createQuery(
+                        "select o from Order o" +
+                                " join fetch o.member m" +
+                                " join fetch o.delivery d", Order.class)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+    }
+
+
+
 
     public List<Order> findAllWithItem() {
         return em.createQuery(
@@ -115,16 +159,6 @@ public class OrderRepository {
                                 " join fetch o.delivery d" +
                                 " join fetch o.orderItems oi" +
                                 " join fetch oi.item i", Order.class)
-                .getResultList();
-    }
-
-    public List<Order> findAllWithMemberDelivery(int offset, int limit) {
-        return em.createQuery(
-                        "select o from Order o" +
-                                " join fetch o.member m" +
-                                " join fetch o.delivery d", Order.class)
-                .setFirstResult(offset)
-                .setMaxResults(limit)
                 .getResultList();
     }
 }
