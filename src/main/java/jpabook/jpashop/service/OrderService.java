@@ -16,34 +16,46 @@ import java.util.List;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class OrderService {
+
     private final MemberRepository memberRepository;
     private final OrderRepository orderRepository;
     private final ItemRepository itemRepository;
+
     /** 주문 */
     @Transactional
     public Long order(Long memberId, Long itemId, int count) {
+
         //엔티티 조회
-        Member member = memberRepository.findOne(memberId);
-        Item item = itemRepository.findOne(itemId);
+        Member member = memberRepository.findOne(memberId); //영컨 에 슉
+        Item item = itemRepository.findOne(itemId); //영컨에 슉
+
         //배송정보 생성
         Delivery delivery = new Delivery();
         delivery.setAddress(member.getAddress());
         delivery.setStatus(DeliveryStatus.READY);
+
         //주문상품 생성
         OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(), count);
+
         //주문 생성
-        Order order = Order.createOrder(member, delivery, orderItem);
+        Order order = Order.createOrder(member, delivery, orderItem); //비영속 상태
+
         //주문 저장
-        orderRepository.save(order);
+        orderRepository.save(order); //--> 들어가면 em.persist(order)//비영속 --> 영속으로 바뀜  --> 해당 transaction 끝나면서 반영
+
         return order.getId();
     }
     /** 주문 취소 */
     @Transactional
     public void cancelOrder(Long orderId) {
+
         //주문 엔티티 조회
-        Order order = orderRepository.findOne(orderId);
+        Order order = orderRepository.findOne(orderId); //영컨에 슉
+
         //주문 취소
         order.cancel();
+
+
     }
     public List<Order> findOrders(OrderSearch orderSearch) {
         return orderRepository.findAllByString(orderSearch);

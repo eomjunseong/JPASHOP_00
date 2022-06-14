@@ -10,21 +10,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
+@Getter @Setter
 public class Member {
 
     @Id @GeneratedValue
     @Column(name="member_id")
     private Long id;
 
-    @NotEmpty
+    @NotEmpty //-->@valid로 체크
     private String name;
 
-    @Embedded
+    @Embedded //@Embadable....
     private Address address;
 
-    @JsonIgnore
+    @JsonIgnore // 양방향 참조시에 한쪽에 해줘야함 그래서 연쇄 호출안함
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
 }
