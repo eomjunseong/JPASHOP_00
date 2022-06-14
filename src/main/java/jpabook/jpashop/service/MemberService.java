@@ -42,4 +42,14 @@ public class MemberService {
     public Member findOne(Long memberId){
         return memberRepository.findOne(memberId);
     }
+    
+    
+    //수정
+    //merge x
+    //변경감지 O 
+    @Transactional
+    public void update(Long id, String name) {
+        Member mebmer = memberRepository.findOne(id); //영속성 컨택스트에 올림 
+        mebmer.setName(name); //바꾸고 -> 트잭 종료~ 반영시킴
+    }
 }
