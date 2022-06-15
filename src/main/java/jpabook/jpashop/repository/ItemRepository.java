@@ -9,6 +9,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ItemRepository {
     private final EntityManager em;
+
+    //아이템 자체 저장
     public void save(Item item) {
         if (item.getId() == null) {
             em.persist(item);

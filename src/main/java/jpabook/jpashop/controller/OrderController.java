@@ -31,6 +31,7 @@ public class OrderController {
         return "order/orderForm";
     }
 
+    //주문생성1.
     @PostMapping("/order")
     public String order(@RequestParam("memberId") Long memberId,
                         @RequestParam("itemId") Long itemId,

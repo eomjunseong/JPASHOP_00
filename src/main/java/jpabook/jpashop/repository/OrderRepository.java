@@ -19,6 +19,7 @@ public class OrderRepository {
         this.em = em;
     }
 
+    //주문 자체 저장 --> 그럼 OrderItem 은?
     public void save(Order order) {
         em.persist(order);
     }
@@ -151,7 +152,8 @@ public class OrderRepository {
 
 
 
-
+    //조회 V3
+    //distinct 없으면 4개뜸 ( 현재 두개)
     public List<Order> findAllWithItem() {
         return em.createQuery(
                         "select distinct o from Order o" +

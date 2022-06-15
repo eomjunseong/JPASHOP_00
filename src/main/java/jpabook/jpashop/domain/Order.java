@@ -1,5 +1,6 @@
 package jpabook.jpashop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,7 +28,7 @@ public class Order {
     private Member member;
 
     //ToMany  : LAZY default
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL) //Order가 저장되면 --> 얘도 같이 저장해라~
     private List<OrderItem> orderItems = new ArrayList<>(); //관례랑 빈 ArrayList넣어줌
 
     @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
@@ -45,27 +46,31 @@ public class Order {
         member.getOrders().add(this);
     }
 
+    //Orderitem 저장
     public void addOrderItem(OrderItem orderItem) {
         orderItems.add(orderItem);
         orderItem.setOrder(this);
     }
 
+    //배송 저장
     public void setDelivery(Delivery delivery) {
         this.delivery = delivery;
         delivery.setOrder(this);
     }
 
     //==생성 메서드==//
+    //주문 생성
+    // delivery, orderItem 저장 되야함
     public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems) {
-        Order order = new Order();
-        order.setMember(member);
-        order.setDelivery(delivery);
+        Order order = new Order(); //주문 만들고
+        order.setMember(member); //멤버 셋팅 --cascade>? 따로 x 이미 저장된거라
+        order.setDelivery(delivery); //딜리버리 -- CascadeType.ALL
         for (OrderItem orderItem : orderItems) {
             order.addOrderItem(orderItem);
         }
         order.setStatus(OrderStatus.ORDER);
         order.setOrderDate(LocalDateTime.now());
-        return order;
+        return order; //주문 객체를 생성해서 넘김 -->
     }
 
     //==비즈니스 로직==//
