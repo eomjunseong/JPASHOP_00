@@ -28,7 +28,7 @@ public class Order {
     private Member member;
 
     //ToMany  : LAZY default
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL) //Order가 저장되면 --> 얘도 같이 저장해라~
+    @OneToMany(fetch=LAZY,  mappedBy = "order", cascade = CascadeType.ALL) //Order가 저장되면 --> 얘도 같이 저장해라~
     private List<OrderItem> orderItems = new ArrayList<>(); //관례랑 빈 ArrayList넣어줌
 
     @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
