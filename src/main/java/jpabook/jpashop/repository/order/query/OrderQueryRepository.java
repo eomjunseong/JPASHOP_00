@@ -28,8 +28,9 @@ public class OrderQueryRepository {
 
         //루프를 돌면서 컬렉션 추가(추가 쿼리 실행)
         result.forEach(
-            o -> {List<OrderItemQueryDto> orderItems = findOrderItems(o.getOrderId());
-                    o.setOrderItems(orderItems);
+            o -> {
+                List<OrderItemQueryDto> orderItems = findOrderItems(o.getOrderId());
+                o.setOrderItems(orderItems);
             });
         return result;
     }

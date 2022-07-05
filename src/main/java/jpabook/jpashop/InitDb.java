@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
 public class InitDb {
 
     private final InitService initService;
+
     @PostConstruct
     public void init() {
         initService.dbInit1();
@@ -26,6 +27,7 @@ public class InitDb {
     static class InitService{
 
         private final EntityManager em;
+
         public void dbInit1(){
             Member member = createMember("userA", "서울", "1", "1111");
             em.persist(member);
@@ -33,7 +35,7 @@ public class InitDb {
             em.persist(book1);
             Book book2 = createBook("JPA2 BOOK", 20000, 100);
             em.persist(book2);
-            OrderItem orderItem1 = OrderItem.createOrderItem(book1, 10000, 1);
+            OrderItem orderItem1 = OrderItem.createOrderItem(book1, 10000, 1); //orderItem 에 order 등록안됨 아직
             OrderItem orderItem2 = OrderItem.createOrderItem(book2, 20000, 2);
             Order order = Order.createOrder(member, createDelivery(member), orderItem1, orderItem2);
             em.persist(order);

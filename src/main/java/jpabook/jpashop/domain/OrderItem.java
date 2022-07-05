@@ -40,6 +40,7 @@ public class OrderItem {
     //==비즈니스 로직==//
     /** 주문 취소 */
     public void cancel() {
+        //제고 수량 업
         getItem().addStock(count);
     }
     //==조회 로직==//
