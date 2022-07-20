@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 @Setter
 public class Book extends Item{
 
+    //ID가 굳이 없음
     private String author;
     private String isbn;
 }

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Embeddable;
 
 @Embeddable
-@Getter
+@Getter //Setter 안열어둠
 @NoArgsConstructor
 @AllArgsConstructor
 public class Address {
@@ -16,6 +16,5 @@ public class Address {
     private String city;
     private String street;
     private String zipcode;
-
 
 }

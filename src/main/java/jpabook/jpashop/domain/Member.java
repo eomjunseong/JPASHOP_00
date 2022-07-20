@@ -1,6 +1,7 @@
 package jpabook.jpashop.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Entity
 @Getter @Setter
+@Data
 public class Member {
 
     @Id @GeneratedValue
@@ -24,6 +26,6 @@ public class Member {
     private Address address;
 
     @JsonIgnore // 양방향 참조시에 한쪽에 해줘야함 그래서 연쇄 호출안함
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member") //읽기만 가능
     private List<Order> orders = new ArrayList<>();
 }

@@ -16,6 +16,7 @@ public class OrderItem {
     @Column(name="order_item_id")
     private Long id;
 
+    //양방향이 아니기에 JsonIgnore 굳이 안씀
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="item_id")
     private Item item;

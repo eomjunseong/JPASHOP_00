@@ -9,6 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -19,7 +21,7 @@ public class MemberServiceTest {
 
     @Autowired MemberService memberService;
     @Autowired MemberRepository memberRepository;
-//    @Autowired EntityManager em;
+    @Autowired EntityManager em;
     @Test
     public void 회원가입() throws Exception{
         //g
@@ -28,9 +30,9 @@ public class MemberServiceTest {
 
         //w
         Long join = memberService.join(member);
-//        em.flush();  쿼리확인
 
         //t
+
         assertEquals(member,memberRepository.findOne(join));
     }
 
