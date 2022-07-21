@@ -36,15 +36,11 @@ public class OrderServiceTest {
         Item item = createBook("시골 JPA", 10000, 10); //이름, 가격, 재고
         int orderCount = 2;
         //When
-        Long orderId = orderService.order(member.getId(), item.getId(),
-                orderCount);
+        Long orderId = orderService.order(member.getId(), item.getId(), orderCount);
         //Then
-
         Order getOrder = orderRepository.findOne(orderId);
-        assertEquals("상품 주문시 상태는 ORDER", OrderStatus.ORDER,
-                getOrder.getStatus());
-        assertEquals("주문한 상품 종류 수가 정확해야 한다.",1,
-                getOrder.getOrderItems().size());
+        assertEquals("상품 주문시 상태는 ORDER", OrderStatus.ORDER, getOrder.getStatus());
+        assertEquals("주문한 상품 종류 수가 정확해야 한다.",1, getOrder.getOrderItems().size());
         assertEquals("주문 가격은 가격 * 수량이다.", 10000 * 2,
                 getOrder.getTotalPrice());
         assertEquals("주문 수량만큼 재고가 줄어야 한다.",8, item.getStockQuantity());
