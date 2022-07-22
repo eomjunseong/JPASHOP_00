@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class OrderItemQueryDto {
 
-    private Long orderId; //주문번호
+    private Long orderId; //주문번호  OrderID
 
     private String itemName;//상품 명
     private int orderPrice; //주문 가격

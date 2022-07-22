@@ -20,8 +20,8 @@ public class MemberApiController {
     private final MemberService memberService;
 
 //가입
+
     //v1
-    //entity 직접 노출 O
     @PostMapping("/api/v1/members")
     public CreateMemberResponse saveMemberV1(@RequestBody @Valid Member member) {
         Long id = memberService.join(member);
@@ -31,14 +31,13 @@ public class MemberApiController {
 
 
     //v2
-    //entity 직접 노출 X
     @PostMapping("/api/v2/members")
     public CreateMemberResponse saveMemberV2(@RequestBody @Valid CreateMemberRequest request) {
 
         Member member = new Member();
         member.setName(request.getName());
-
         Long id = memberService.join(member); //저장 시키고
+
         return new CreateMemberResponse(id); //아이디반환
     }
 
@@ -47,7 +46,7 @@ public class MemberApiController {
 //수정
     //v2 (v1없음)
     //DTO
-    @PutMapping("/api/v2/members/{id}")
+    @PatchMapping("/api/v2/members/{id}")
     public UpdateMemberResponse updateMemberV2(@PathVariable("id") Long id,
                                                 @RequestBody @Valid UpdateMemberRequest request) {
         memberService.update(id, request.getName());// 굳이 반환을 안했음 -> 내부에서 반환 시켜도 준영속 인 애를 반환해서
